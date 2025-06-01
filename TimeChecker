@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TimePicker
+        android:id="@+id/date3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:timePickerMode="clock"/>
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</android.support.constraint.ConstraintLayout>
+
+MainActivity.kt
+
+package com.example.myapplication
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.ViewGroup
+import android.widget.DatePicker
+import android.widget.TextView
+import android.widget.TimePicker
+import android.widget.Toast
+import java.util.Calendar
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        onClickTime()
+    }
+    private fun onClickTime() {
+        val textview = findViewById<TextView>(R.id.text1)
+        val timeChecker = findViewById<TimePicker>(R.id.date3)
+        timeChecker.setOnTimeChangedListener(){ _, hour, minute ->
+            var displayHour=hour
+            val am_pm: String = when {
+                hour == 0 ->{
+                    displayHour = 12
+                    "AM"
+            }
+            hour == 12 -> "PM"
+            hour > 12 -> {
+                displayHour=hour-12
+                "PM"
+             }
+            else -> "AM"
+        }
+        if(textview!=null){
+            val hours= if (displayHour < 10) "0$displayHour" else hour
+            val mins=if (minute < 10) "0$minute" else minute
+            val msg="Time is $hours: $mins @am_pm"
+            textview.text=msg
+            textview.visibility=ViewGroup.VISIBLE
+        }
+    }
+}
+}
