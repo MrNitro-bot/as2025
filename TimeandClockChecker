@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <DatePicker
+        android:id="@+id/date2"
+        android:layout_width="330dp"
+        android:layout_height="316dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="27dp" />
+
+    <TimePicker
+        android:id="@+id/date3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:timePickerMode="clock"/>
+
+    <TimePicker
+        android:id="@+id/date4"
+        android:timePickerMode="spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</android.support.constraint.ConstraintLayout>
+
+strings.xml
+
+<resources>
+    <string name="app_name">My Application</string>
+</resources>
+
+MainActivity.kt
+
+package com.example.myapplication
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.DatePicker
+import android.widget.Toast
+import java.util.Calendar
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val datePicker=findViewById<DatePicker>(R.id.date2)
+        val today=Calendar.getInstance()
+        datePicker.init(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DAY_OF_MONTH)
+        ){view, year, month, day->
+            val month=month+1
+            val msg="You chose: $day/$month/$year"
+            Toast.makeText(this@MainActivity,msg,Toast.LENGTH_SHORT).show()
+        }
+    }
+}
